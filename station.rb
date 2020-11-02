@@ -19,5 +19,6 @@ class Station
       if train.type == type
         puts train
       end
+    end
   end
 end

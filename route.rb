@@ -13,6 +13,6 @@ class Route
   def delete_station(station)
     return unless (@stations.first|| @stations.last) != station
     @stations.delete(station)
-    end
+  end
 end
 #нашел только как запретить удалять первую и последнюю станции
