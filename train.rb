@@ -1,14 +1,14 @@
 class Train
 
-  attr_reader :number, :type, :route
+  attr_reader :number, :type, :route, :wagons
   attr_accessor :station, :speed, :count
 
-  def initialize(number, type, count)
+  def initialize(number)
     @number = number
     @type = type
-    @count = count
+    @wagons = []
     @speed = 0
-  end
+    end
 
   def raise_speed(speed)
     @speed += speed
@@ -18,26 +18,28 @@ class Train
     @speed = 0
   end
 
-  def add_carriage
-    if @speed == 0
-      @count += 1
+  def add_carriage(wagon)
+    if @speed == 0 && self.type == wagon.type
+      @wagons << wagon
+      wagon.train = self
     else
-      puts 'Остановите поезд.'
+      raise 'Поезд находится в движении или не совпадают типы поезд/вагон.'
     end
   end
 
-  def delete_carriage
-    if @speed == 0 && @count.positive?
-      @count -= 1
-    else
-      puts "Убедитесь, что поезд остановлен и прицеплен хотя бы один вагон."
+  def delete_carriage(wagon)
+    if @speed == 0
+      @wagons.delete(wagon)
+        wagon.train = nil
+      else
+        raise 'Невозможно отцепить вагон, когда поезд движется'
+      end
     end
-  end
 
   def route(route)
     @route = route
     @station = @route.stations.first
-    station.take_train(self)
+    station.get_train(self)
   end
 
   def next_station
@@ -50,15 +52,13 @@ class Train
 
   def move_next_station
     return unless next_station
-    station.send_train(self)
-    next_station.take_train(self)
-    @station += 1
-  end
+    station.delete_train(self)
+    next_station.get_train(self)
+    end
 
   def move_previous_station
     return unless previous_station
-    station.send_train(self)
-    previous_station.take_train(self)
-    @station -= 1
-  end
+    station.delete_train(self)
+    previous_station.get_train(self)
+    end
 end

@@ -37,28 +37,28 @@ class Menu
   end
 
   def all_stations
-    @stations.each_with_index(1) do |station, index|
+    @stations.each do |station, index|
       puts "#{index}. #{station.name}}"
     end
   end
 
   def all_routes
-    @routes.each_with_index(1) do |route, index|
+    @routes.each do |route, index|
       puts "#{index}. #{route.name}"
     end
   end
 
   def all_trains
-    @trains.each_with_index(1) do |trains, index|
-      puts "#{index}. #{number}, #{train.type}"
+    @trains.each do |trains, index|
+      puts "#{index}, #{trains.type}"
     end
   end
 
-  def all_wagons
-    @wagons.each_with_index(1) do |wagons, index|
-      puts "#{index}. #{number}, #{wagon.type}"
-    end
-  end
+  def all_free_wagons_list
+     @wagons.reject { |wagon| wagon.train == nil }.each.with_index(1) do |wagon, index|
+       puts "#{index}.id - #{wagon.id}, тип - #{wagon.type}."
+     end
+   end
 
   def create_station
     puts "Введите название станции: "
@@ -81,20 +81,32 @@ class Menu
   end
 
   def create_route
+    puts 'Выберите начальную станцию:'
+    all_stations
+    index = gets.to_i
+    start_station = @stations[index - 1]
+    puts 'Выберите конечную станцию:'
+    all_stations
+    index = gets.to_i
+    finish_station = @stations[index - 1]
     route = Route.new(start_station, finish_station)
     @routes << route
   end
 
   def change_route
+    puts 'Выберите маршрут для изменения:'
+    all_routes
+    index = gets.to_i
+    route = @routes[index - 1]
     puts "1.Удалить станцию\n2.Добавить станцию"
     choice = gets.to_i
     case choice
     when 1
       puts 'Какую станцию удалить?'
-      route.all_stations
+      route.stations_list
       index = gets.to_i
-      station = route.stations[index - 1]
-      route.remove_station(station)
+      station = @stations[index - 1]
+      route.delete_station(station)
     when 2
       puts 'Какую станцию добавить в маршрут?'
       all_stations
@@ -113,7 +125,7 @@ class Menu
     all_routes
     index = gets.to_i
     route = @routes[index -1]
-    train.set_route(route)
+    train.route(route)
  end
 
  def create_wagon
@@ -123,9 +135,12 @@ class Menu
    type = gets.to_i
    if type == 1
      wagon = WagonCargo.new(id)
+     @wagons << wagon
+     wagon
    else
      wagon = WagonPass.new(id)
      @wagons << wagon
+     wagon
    end
  end
 
@@ -134,11 +149,9 @@ class Menu
    all_trains
    index = gets.to_i
    train = @trains[index - 1]
-   puts 'Выберите нужный вагон'
-   all_free_wagons_list
-   index = gets.to_i
-   wagon = @wagons[index - 1]
-   train.add_wagon(wagon)
+   puts "Создайте вагон"
+   wagon = create_wagon
+   train.add_carriage(wagon)
   end
 
   def delete_wagons
@@ -152,7 +165,7 @@ class Menu
     end
     index = gets.to_i
     wagon = train.wagons[index - 1]
-    train.remove_wagon(wagon)
+    train.delete_carriage(wagon)
   end
 
   def move_train
@@ -163,9 +176,9 @@ class Menu
     puts "Выберите направление:\n\t1.Вперед\n\t2.Назад"
   choise_1 = gets.to_i
     if choise_1 == 1
-      train.go_forward
+      train.move_next_station
     elsif choise_1 == 2
-      train.go_back
+      train.move_previous_station
     end
   end
 
