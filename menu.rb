@@ -36,6 +36,9 @@ class Menu
     end
   end
 
+protected
+# потому что все необходимое пользователю - это меню выше
+
   def all_stations
     @stations.each do |station, index|
       puts "#{index}. #{station.name}}"
@@ -59,6 +62,13 @@ class Menu
        puts "#{index}.id - #{wagon.id}, тип - #{wagon.type}."
      end
    end
+
+  def select_train
+    puts 'Выберите поезд:'
+    all_trains
+    index = gets.to_i
+    @train = @trains[index - 1]
+  end
 
   def create_station
     puts "Введите название станции: "
@@ -117,15 +127,12 @@ class Menu
   end
 
   def set_route_to_train
-    puts 'Выберите поезд:'
-    all_trains
-    index = gets.to_i
-    train = @trains[index - 1]
+    select_train
     puts 'Выберите маршрут:'
     all_routes
     index = gets.to_i
     route = @routes[index -1]
-    train.route(route)
+    @train.route(route)
  end
 
  def create_wagon
@@ -145,40 +152,31 @@ class Menu
  end
 
  def add_wagons
-   puts 'Выберите поезд:'
-   all_trains
-   index = gets.to_i
-   train = @trains[index - 1]
+   select_train
    puts "Создайте вагон"
    wagon = create_wagon
-   train.add_carriage(wagon)
+   @train.add_carriage(wagon)
   end
 
   def delete_wagons
-    puts 'Выберите поезд: '
-    all_trains
-    index = gets.to_i
-    train = @trains[index - 1]
+    select_train
     puts 'Список вагонов поезда. Выберите какой нужно отцепить: '
-    train.wagons.each.with_index(1) do |wagon, index|
+    @train.wagons.each.with_index(1) do |wagon, index|
     puts "#{index}. #{wagon.id}, #{wagon.type}."
     end
     index = gets.to_i
-    wagon = train.wagons[index - 1]
-    train.delete_carriage(wagon)
+    wagon = @train.wagons[index - 1]
+    @train.delete_carriage(wagon)
   end
 
   def move_train
-    puts 'Выберите поезд: '
-    all_trains
-    index = gets.to_i
-    train = @trains[index - 1]
+    select_train
     puts "Выберите направление:\n\t1.Вперед\n\t2.Назад"
   choise_1 = gets.to_i
     if choise_1 == 1
-      train.move_next_station
+      @train.move_next_station
     elsif choise_1 == 2
-      train.move_previous_station
+      @train.move_previous_station
     end
   end
 
