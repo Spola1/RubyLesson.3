@@ -1,4 +1,6 @@
 require_relative 'menu'
+require_relative 'company'
+require_relative 'Instanse'
 require_relative 'station'
 require_relative 'route'
 require_relative 'wagon'

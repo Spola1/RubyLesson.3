@@ -1,9 +1,11 @@
 class Route
 
-  attr_reader :stations :name
+  attr_reader :stations, :name
+  include InstanceCounter
 
   def initialize(start_station, finish_station)
     @stations = [start_station, finish_station]
+    register_instance
   end
 
   def name
@@ -25,4 +27,3 @@ class Route
     @stations.delete(station)
   end
 end
-#нашел только как запретить удалять первую и последнюю станции

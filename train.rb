@@ -2,6 +2,8 @@ class Train
 
   attr_reader :number, :type, :route, :wagons
   attr_accessor :station, :speed, :count
+  include Company
+  include InstanceCounter
 
   def initialize(number, type)
     @number = number
@@ -9,6 +11,10 @@ class Train
     @wagons = []
     @speed = 0
     end
+
+  def find(number)
+    @number.nil? ? nil : @number
+  end
 
   def raise_speed(speed)
     @speed += speed
