@@ -13,7 +13,6 @@ module InstanceCounter
   end
 
   module InstanceMethods
-
     def register_instance
       self.class.instance_counter || 0
       self.class.instance_counter += 1
