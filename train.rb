@@ -5,15 +5,20 @@ class Train
   include Company
   include InstanceCounter
 
+  @@number_type = {}
+
   def initialize(number, type)
+    @@number_type[number] == nil
     @number = number
     @type = type
     @wagons = []
     @speed = 0
-    end
+    @@number_type[number] = self
+    register_instance
+  end
 
-  def find(number)
-    @number.nil? ? nil : @number
+  def self.find(number)
+    @@number_type[number]
   end
 
   def raise_speed(speed)

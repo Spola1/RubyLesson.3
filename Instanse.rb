@@ -15,7 +15,7 @@ module InstanceCounter
   module InstanceMethods
 
     def register_instance
-      self.class.instance_counter ||= 0
+      self.class.instance_counter || 0
       self.class.instance_counter += 1
     end
   end
