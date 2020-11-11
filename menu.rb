@@ -52,8 +52,8 @@ protected
   end
 
   def all_trains
-    @trains.each do |trains, index|
-      puts "#{index}, #{trains.type}"
+    @trains.each do |trains, number, index|
+      puts "#{index}. Номер поезда - #{trains.number}, тип - #{trains.type}"
     end
   end
 
@@ -74,33 +74,48 @@ protected
     puts "Введите название станции: "
     name_of_station = gets.to_s
     @stations << Station.new(name_of_station)
+    puts "Создана новая станция - #{name_of_station}"
+  rescue RuntimeError => e
+    puts "Ошибка: #{e.message}"
+    retry
   end
 
   def create_train
-    puts "Ведите тип поезда:\n\t1.Грузовой\n\t2.Пассажирский"
-    type = gets.to_i
-    puts 'Введите номер поезда: '
-    number = gets.to_i
-    if type == 1
-      train = CargoTrain.new(number)
-    else
-      train = PassengerTrain.new(number)
+    begin
+      puts "Ведите тип поезда:\n\t1.Грузовой\n\t2.Пассажирский"
+      type = gets.to_i
+      puts 'Введите номер поезда в формате (три буквы или цифры в любом порядке-необязательный дефис-две буквы или цифры после дефиса)'
+      number = gets.to_i
+      if type == 1
+        train = CargoTrain.new(number)
+      else
+        train = PassengerTrain.new(number)
+      end
+      @trains << train
+    rescue RuntimeError => e
+      puts "Ошибка: #{e.message}"
+      retry
     end
-    @trains << train
-    end
+    puts "Создан новый поезд. Номер - #{train.number}, тип - #{train.type}"
   end
 
   def create_route
-    puts 'Выберите начальную станцию:'
-    all_stations
-    index = gets.to_i
-    start_station = @stations[index - 1]
-    puts 'Выберите конечную станцию:'
-    all_stations
-    index = gets.to_i
-    finish_station = @stations[index - 1]
-    route = Route.new(start_station, finish_station)
+    begin
+      puts 'Выберите начальную станцию:'
+      all_stations
+      index = gets.to_i
+      start_station = @stations[index - 1]
+      puts 'Выберите конечную станцию:'
+      all_stations
+      index = gets.to_i
+      finish_station = @stations[index - 1]
+      route = Route.new(start_station, finish_station)
+    rescue RuntimeError => e
+      puts "Ошибка: #{e.message}"
+      retry
+    end
     @routes << route
+    puts "Создан маршрут #{route.stations.first.name} - #{route.stations.last.name}"
   end
 
   def change_route
@@ -149,6 +164,11 @@ protected
      @wagons << wagon
      wagon
    end
+ rescue RuntimeError => e
+    puts "Ошибка #{e.message}"
+    retry
+  end
+  puts "Создан вагон: #{wagon.id}. #{wagon.type}"
  end
 
  def add_wagons
@@ -193,3 +213,4 @@ protected
      end
    end
  end
+end

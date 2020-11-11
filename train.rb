@@ -4,17 +4,27 @@ class Train
   attr_accessor :station, :speed, :count
   include Company
   include InstanceCounter
+  include Verification
+  NUMBER_FORMAT = /^[a-z0-9]{3}-?[a-z0-9]{2}$/
 
   @@number_type = {}
 
   def initialize(number, type)
-    @@number_type[number] == nil
     @number = number
+    check!
+    @@number_type[number] == nil
     @type = type
     @wagons = []
     @speed = 0
     @@number_type[number] = self
     register_instance
+  end
+
+  def valid?
+    validate!
+    true
+  rescue
+    false
   end
 
   def self.find(number)
@@ -65,11 +75,22 @@ class Train
     return unless next_station
     station.delete_train(self)
     next_station.get_train(self)
-    end
+  end
 
   def move_previous_station
     return unless previous_station
     station.delete_train(self)
     previous_station.get_train(self)
-    end
+  end
+
+  def validate!
+    validate_train_number
+    validate_train_presence
+  end
+
+  private
+
+  def check!
+    raise 'Проверьте формат номера.' if @number !~ NUMBER_TRAIN
+  end
 end

@@ -5,7 +5,12 @@ class Route
 
   def initialize(start_station, finish_station)
     @stations = [start_station, finish_station]
+    check!(start_station, finish_station)
     register_instance
+  end
+
+  def stations_match?
+    stations.first == stations.last || stations.first.name == stations.last.name
   end
 
   def name
@@ -26,4 +31,10 @@ class Route
     return unless (@stations.first|| @stations.last) != station
     @stations.delete(station)
   end
+
+  private
+
+ def check!(start_station, end_station)
+   raise 'Для маршрута невозможно назначение пустой станции' if start_station.nil? || finish_station.nil?
+ end
 end

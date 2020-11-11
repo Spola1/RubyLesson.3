@@ -1,12 +1,15 @@
 class Station
   attr_reader :name, :trains
   include InstanceCounter
+  include Verification
+
   @@stations = []
 
   def initialize (name)
     @name = name
-    @trains = []
     @@stations << name
+    check!
+    @trains = []
     register_instance
   end
 
@@ -29,4 +32,11 @@ class Station
       end
     end
   end
+
+  private
+
+  def check!
+    raise 'Название станции должно быть больше 2 символов' if @name.length < 3
+  end
+
 end
