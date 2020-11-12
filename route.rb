@@ -5,7 +5,7 @@ class Route
 
   def initialize(start_station, finish_station)
     @stations = [start_station, finish_station]
-    check!(start_station, finish_station)
+    check!
     register_instance
   end
 
@@ -34,7 +34,7 @@ class Route
 
   private
 
- def check!(start_station, end_station)
-   raise 'Для маршрута невозможно назначение пустой станции' if start_station.nil? || finish_station.nil?
+ def check!
+   raise 'В маршруте должно быть минимм 2 станции' if @stations.lenght < 2
  end
 end
