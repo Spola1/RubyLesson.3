@@ -168,7 +168,6 @@ protected
     puts "Ошибка #{e.message}"
     retry
   end
-  puts "Создан вагон: #{wagon.id}. #{wagon.type}"
  end
 
  def add_wagons
@@ -213,4 +212,3 @@ protected
      end
    end
  end
-end
