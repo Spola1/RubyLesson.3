@@ -20,13 +20,6 @@ class Train
     register_instance
   end
 
-  def valid?
-    validate!
-    true
-  rescue
-    false
-  end
-
   def self.find(number)
     @@number_type[number]
   end
@@ -81,11 +74,6 @@ class Train
     return unless previous_station
     station.delete_train(self)
     previous_station.get_train(self)
-  end
-
-  def validate!
-    validate_train_number
-    validate_train_presence
   end
 
   private
