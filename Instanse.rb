@@ -16,11 +16,11 @@ module InstanceCounter
     def register_instance
       self.class.instance_counter || 0
       self.class.instance_counter += 1
-      =begin
-      после добавления исключений, появилась ошибка
-      spola/lessons/Instanse.rb:18:in `register_instance': undefined method `+' for nil:NilClass (NoMethodError)
-      не понимаю как исправить
-      =end
     end
   end
 end
+
+
+#после добавления исключений, появилась ошибка
+#spola/lessons/Instanse.rb:18:in `register_instance': undefined method `+' for nil:NilClass (NoMethodError)
+#не понимаю как исправить
