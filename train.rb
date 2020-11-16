@@ -20,6 +20,12 @@ class Train
     register_instance
   end
 
+  def map_wagons
+    @wagons.each do |wagon|
+      yield(wagon)
+    end
+  end
+
   def self.find(number)
     @@number_type[number]
   end
