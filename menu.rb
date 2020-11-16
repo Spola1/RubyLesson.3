@@ -36,6 +36,10 @@ class Menu
     end
   end
 
+#так же появилась Ошибка
+#menu.rb:16:in `block in start': undefined local variable or method `create_station' for #<Menu:0x000055d803256dc8> (NameError)
+#появляется при создании станции/поезда/маршрута
+
 protected
 # потому что все необходимое пользователю - это меню выше
 
@@ -61,7 +65,12 @@ protected
      @wagons.reject { |wagon| wagon.train == nil }.each.with_index(1) do |wagon, index|
        puts "#{index}.id - #{wagon.id}, тип - #{wagon.type}."
      end
-   end
+
+  def single_train_wagons_list(train)
+     train.wagons.each.with_index(1) do |wagon, index|
+      puts "#{index}. id вагона - #{wagon.id}, тип вагона - #{wagon.type}"
+    end
+  end
 
   def select_train
     puts 'Выберите поезд:'
@@ -156,11 +165,15 @@ protected
    puts "Введите тип вагона \n\t1.Грузовой \n\t2.Пассажирский"
    type = gets.to_i
    if type == 1
-     wagon = WagonCargo.new(id)
+     puts "Введите общий объем вагона: "
+     capacity = gets.to_i
+     wagon = WagonCargo.new(id, capacity)
      @wagons << wagon
      wagon
    else
-     wagon = WagonPass.new(id)
+     puts "Введите общее количество мест в вагоне: "
+     number_of_places = gets.to_i
+     wagon = WagonPass.new(id, number_of_places)
      @wagons << wagon
      wagon
    end
@@ -200,15 +213,49 @@ protected
   end
 
   def info
-   puts "Список всех станций.\nВыберите станцию для просмотра дополнительной информации:"
-   all_stations
-   index = gets.to_i
-   station = @stations[index - 1]
-   if station.trains.empty?
-     raise 'На этой станции нет поездов'
-   else
-     station.trains.each do |train|
-       puts "Номер поезда: #{train.number}. Тип поезда: #{train.type}"
+    puts "Показать информацию о\n\t1.Станции\n\t2.Поезде"
+    choice = gets.to_i
+    case choice
+    when 1
+      puts "Список всех станций.\nВыберите станцию для просмотра дополнительной информации:"
+      all_stations
+      index = gets.to_i
+      station = @stations[index - 1]
+      raise 'На этой станции нет поездов' if station.trains.empty?
+
+      tation.map_trains { |train| puts "Номер поезда - #{train.number}, тип - #{train.type}, кол-во вагонов - #{train.wagons.size}" }
+    when 2
+      puts "Список всех поездов.\nВыберите вагон для просмотра информации: "
+      all_trains
+      index = gets.to_i
+      train = @trains[index - 1]
+      raise 'У этого поезда нет вагонов' if trains.wagons.empty?
+
+      train.map_wagons { |wagon| puts "ID вагона - #{wagon.id}, тип - #{wagon.type}, #{wagon.type == 'Пассажирский' ? "Свободных мест #{wagon.free_seats}, Занятых мест #{wagon.occupied_seats_quantity}" : "Свободный объем #{wagon.free_capacity}, Занятый объем #{wagon.occupied_capacity}"}" }
+    end
+  end
+
+   def teke_place_in_wagon
+     puts "Выберите поезд: "
+     all_trains
+     index = gets.to_i
+     train = trains[index - 1]
+     puts "Выберите вагон, чтобы занять место: "
+     single_train_wagons_list(train)
+     index = gets.to_i
+     wagon = train.wagons[index - 1]
+     if wagon.type == 'Пассажирский'
+       puts 'Занять место?(y/n)'
+       choise = gets.to_s
+       if choise == 'y'
+         wagon.take_seat
+         puts "Занято одно место, осталось #{wagon.free_seats}."
+       end
+     elsif wagon.type == 'Грузовой'
+       puts "Какой объем занять?, оступно - #{wagon.free_capacity}"
+       cargo_volume = gets.to_i
+       wagon.load(cargo_volume)
+       puts "Был занят объем - #{cargo_volume}, осталось - #{wagon.free_capacity}"
      end
    end
  end
