@@ -17,7 +17,7 @@ class Station
     @@stations
   end
 
-  def map_trains
+  def each_train
     @trains.each do |train|
       yield(train)
     end

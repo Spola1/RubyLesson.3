@@ -1,17 +1,17 @@
 class WagonCargo < Wagon
-  attr_reader :free_capacity
-  def initialize(id, capacity)
-    super(id)
+  attr_reader :volume
+  def initialize(id, volume)
     @type = 'Грузовой'
-    @capacity = capacity
-    @free_capacity = capacity
+    super
   end
 
-  def load(cargo_volume)
-    @free_capacity -= cargo_volume
+  def upload(vlm)
+    raise "Не хватает места для загрузки!" if (@occuped + vlm) > @capacity
+    @occuped += vlm
   end
 
-  def occupied_capacity
-    @capacity - @free_capacity
+  def unload(vlm)
+    raise "Нечего разгружать!" if (@occuped - vlm).negative?
+    @occuped -= vlm
   end
 end

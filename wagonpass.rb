@@ -1,17 +1,16 @@
 class WagonPass < Wagon
   attr_reader :free_seats
-  def initialize(id, number_of_places)
-    super(id)
+  def initialize(id, number_of_places = 28)
     @type = 'Пассажирский'
-    @number_of_places = number_of_places
-    @free_seats = number_of_places
+    super
   end
 
   def take_seat
-    @free_seats -= 1
+    raise "Нет свободных мест!" if @occuped == @capacity
   end
 
-  def occupied_seats_quantity
-    @number_of_places - @free_seats
+  def occupied_seats
+    raise "Все места свободны!" if @occuped.zero?
+    @occuped -= 1
   end
 end

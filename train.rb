@@ -20,7 +20,7 @@ class Train
     register_instance
   end
 
-  def map_wagons
+  def each_wagon
     @wagons.each do |wagon|
       yield(wagon)
     end
