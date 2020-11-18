@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 class Station
   attr_reader :name, :trains
-  include InstanceCounter
+  include Instance_Counter
   include Verification
 
-  @@stations = []
+  @stations = []
 
-  def initialize (name)
+  def initialize(name)
     @name = name
     @@stations << name
     check!
@@ -33,9 +35,7 @@ class Station
 
   def trains_type(type)
     @trains.each do |train|
-      if train.type == type
-        puts train
-      end
+      puts train if train.type == type
     end
   end
 
@@ -44,5 +44,4 @@ class Station
   def check!
     raise 'Название станции должно быть больше 2 символов' if @name.length < 3
   end
-
 end

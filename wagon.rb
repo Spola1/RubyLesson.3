@@ -1,5 +1,6 @@
-class Wagon
+# frozen_string_literal: true
 
+class Wagon
   attr_reader :id, :type
   attr_accessor :train_number, :capacity, :occuped
   include Company
@@ -25,8 +26,7 @@ class Wagon
 
   private
 
- def check!
-   raise 'Неверный формат номера' if @id.to_s
- end
-
+  def check!
+    raise 'Неверный формат номера' if @id.to_s
+  end
 end

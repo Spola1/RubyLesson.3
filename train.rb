@@ -1,9 +1,10 @@
-class Train
+# frozen_string_literal: true
 
+class Train
   attr_reader :number, :type, :route, :wagons
   attr_accessor :station, :speed, :count
   include Company
-  include InstanceCounter
+  include Instance_Counter
   include Verification
   NUMBER_FORMAT = /^[a-z0-9]{3}-?[a-z0-9]{2}$/
 
@@ -12,7 +13,7 @@ class Train
   def initialize(number, type)
     @number = number
     check!
-    @@number_type[number] == nil
+    @@number_type[number].nil?
     @type = type
     @wagons = []
     @speed = 0
@@ -39,7 +40,7 @@ class Train
   end
 
   def add_carriage(wagon)
-    if @speed == 0 && self.type == wagon.type
+    if @speed == 0 && type == wagon.type
       @wagons << wagon
       wagon.train = self
     else
@@ -50,13 +51,13 @@ class Train
   def delete_carriage(wagon)
     if @speed == 0
       @wagons.delete(wagon)
-        wagon.train = nil
-      else
-        raise 'Невозможно отцепить вагон, когда поезд движется'
+      wagon.train = nil
+    else
+      raise 'Невозможно отцепить вагон, когда поезд движется'
       end
     end
 
-  def route(route)
+  def routes(route)
     @route = route
     @station = @route.stations.first
     station.get_train(self)
@@ -67,7 +68,8 @@ class Train
   end
 
   def previous_station
-    @route.stations[@route.stations.index(@station) - 1] unless @station == @route.stations.first
+    @route.stations[@route.stations.index(@station) - 1]
+    unless @station == @route.stations.first
   end
 
   def move_next_station

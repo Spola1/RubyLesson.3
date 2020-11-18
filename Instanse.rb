@@ -1,4 +1,6 @@
-module InstanceCounter
+# frozen_string_literal: true
+
+module Instance_Counter
   def self.included(base)
     base.extend ClassMethods
     base.send :include, InstanceMethods
@@ -19,8 +21,3 @@ module InstanceCounter
     end
   end
 end
-
-
-#после добавления исключений, появилась ошибка
-#spola/lessons/Instanse.rb:18:in `register_instance': undefined method `+' for nil:NilClass (NoMethodError)
-#не понимаю как исправить

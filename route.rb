@@ -1,7 +1,8 @@
-class Route
+# frozen_string_literal: true
 
+class Route
   attr_reader :stations, :name
-  include InstanceCounter
+  include Instance_Counter
 
   def initialize(start_station, finish_station)
     @stations = [start_station, finish_station]
@@ -13,7 +14,7 @@ class Route
     stations.first == stations.last || stations.first.name == stations.last.name
   end
 
-  def name
+  def names
     stations.first.name + '-' + stations.last.name
   end
 
@@ -22,19 +23,19 @@ class Route
   end
 
   def stations_list
-   stations.each.with_index(1) do |station, index|
-     puts "#{index}.#{station.name}"
-   end
- end
+    stations.each.with_index(1) do |station, index|
+      puts "#{index}.#{station.name}"
+    end
+  end
 
   def delete_station(station)
-    return unless (@stations.first|| @stations.last) != station
+    return unless (@stations.first || @stations.last) != station
     @stations.delete(station)
   end
 
   private
 
- def check!
-   raise 'В маршруте должно быть минимм 2 станции' if @stations.lenght < 2
- end
+  def check!
+    raise 'В маршруте должно быть минимм 2 станции' if @stations.lenght < 2
+  end
 end
