@@ -13,8 +13,5 @@ Layout/ClassLength:
 Layout/BlockLength:
   Max: 50
 
-Layout/CyclomaticComplexityLength:
-  Max: 15
-
 Metrics/AbcSize:
   Enabled: false
