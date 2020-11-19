@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Instance_Counter
+module InstanceCounter
   def self.included(base)
     base.extend ClassMethods
     base.send :include, InstanceMethods

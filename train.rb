@@ -4,11 +4,11 @@ class Train
   attr_reader :number, :type, :route, :wagons
   attr_accessor :station, :speed, :count
   include Company
-  include Instance_Counter
+  include InstanceCounter
   include Verification
   NUMBER_FORMAT = /^[a-z0-9]{3}-?[a-z0-9]{2}$/
 
-  @@number_type = {}
+  @number_type = {}
 
   def initialize(number, type)
     @number = number
@@ -40,24 +40,18 @@ class Train
   end
 
   def add_carriage(wagon)
-    if @speed == 0 && type == wagon.type
-      @wagons << wagon
-      wagon.train = self
-    else
-      raise 'Поезд находится в движении или не совпадают типы поезд/вагон.'
-    end
+    @wagons << wagon if @speed.zero? && type == wagon.type
+    wagon.train = self
+    raise 'Поезд находится в движении или не совпадают типы поезд/вагон.'
   end
 
   def delete_carriage(wagon)
-    if @speed == 0
-      @wagons.delete(wagon)
-      wagon.train = nil
-    else
-      raise 'Невозможно отцепить вагон, когда поезд движется'
-      end
-    end
+    @wagons.delete(wagon) if @speed.zero?
+    wagon.train = nil
+    raise 'Невозможно отцепить вагон, когда поезд движется'
+  end
 
-  def routes(route)
+  def route(route)
     @route = route
     @station = @route.stations.first
     station.get_train(self)
@@ -68,8 +62,7 @@ class Train
   end
 
   def previous_station
-    @route.stations[@route.stations.index(@station) - 1]
-    unless @station == @route.stations.first
+    @route.stations[@route.stations.index(@station) - 1] unless @station == @route.stations.first
   end
 
   def move_next_station

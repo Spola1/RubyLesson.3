@@ -2,7 +2,7 @@
 
 class Route
   attr_reader :stations, :name
-  include Instance_Counter
+  include InstanceCounter
 
   def initialize(start_station, finish_station)
     @stations = [start_station, finish_station]
@@ -14,7 +14,7 @@ class Route
     stations.first == stations.last || stations.first.name == stations.last.name
   end
 
-  def names
+  def name
     stations.first.name + '-' + stations.last.name
   end
 

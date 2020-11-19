@@ -2,7 +2,7 @@
 
 class Station
   attr_reader :name, :trains
-  include Instance_Counter
+  include InstanceCounter
   include Verification
 
   @stations = []

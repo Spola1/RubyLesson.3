@@ -99,7 +99,7 @@ class Menu
       begin
         puts "Ведите тип поезда:\n\t1.Грузовой\n\t2.Пассажирский"
         type = gets.to_i
-        puts 'Введите номер поезда в формате (3 буквы или цифры в любом порядке-необязательный дефис-2 буквы или цифры)'
+        puts 'Введите номер поезда в формате (3 символа -необязательный дефис-2 символа)'
         number = gets.to_i
         train = if type == 1
                   CargoTrain.new(number)
@@ -183,11 +183,10 @@ class Menu
         @wagons << wagon
         wagon
       end
-     rescue RuntimeError => e
-       puts "Ошибка #{e.message}"
-       retry
-     end
-   end
+    rescue RuntimeError => e
+      puts "Ошибка #{e.message}"
+      retry
+    end
   end
 
   def add_wagons
@@ -195,7 +194,7 @@ class Menu
     puts 'Создайте вагон'
     wagon = create_wagon
     @train.add_carriage(wagon)
-   end
+  end
 
   def delete_wagons
     select_train
@@ -211,10 +210,10 @@ class Menu
   def move_train
     select_train
     puts "Выберите направление:\n\t1.Вперед\n\t2.Назад"
-    choise_1 = gets.to_i
-    if choise_1 == 1
+    choise = gets.to_i
+    if choise == 1
       @train.move_next_station
-    elsif choise_1 == 2
+    elsif choise == 2
       @train.move_previous_station
     end
   end
@@ -230,8 +229,7 @@ class Menu
       station = @stations[index - 1]
       raise 'На этой станции нет поездов' if station.trains.empty?
 
-      station.each_train { |train| }
-      puts "Номер - #{train.number}\nтип - #{train.type}\nкол-во вагонов - #{train.wagons.size}"
+      station.each_train { |train| puts "Номер поезда - #{train.number}, тип - #{train.type}, кол-во вагонов - #{train.wagons.size}" }
     when 2
       puts "Список всех поездов.\nВыберите вагон для просмотра информации: "
       all_trains
@@ -239,13 +237,11 @@ class Menu
       train = @trains[index - 1]
       raise 'У этого поезда нет вагонов' if trains.wagons.empty?
 
-      train.each_wagon { |wagon| }
-      puts "#{wagon.id}. #{wagon.type}, #{wagon.type == 'Пассажирский' ? "Свободных мест #{wagon.avaliable},\
-      Занятых мест #{wagon.occupied}" : "Свободный объем #{wagon.avaliable}, Занятый объем #{wagon.occupied}"}"}
+      train.each_wagon { |wagon| puts "ID вагона - #{wagon.id}, тип - #{wagon.type}, #{wagon.type == 'Пассажирский' ? "Свободных мест #{wagon.avaliable}, Занятых мест #{wagon.occupied}" : "Свободный объем #{wagon.avaliable}, Занятый объем #{wagon.occupied}"}" }
     end
   end
 
-  def take_place_in_wagon
+  def teke_place_in_wagon
     puts 'Выберите поезд: '
     all_trains
     index = gets.to_i
@@ -268,3 +264,4 @@ class Menu
       puts "Был занят объем - #{cargo_volume}, осталось - #{wagon.avaliable}"
     end
   end
+end
