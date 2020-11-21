@@ -277,9 +277,9 @@ def teke_place_in_wagon
   index = gets.to_i
   train = trains[index - 1]
   puts 'Выберите вагон, чтобы занять место: '
-  single_train_wagons_list(train)
+  single_train_wagons_list
   index = gets.to_i
-  wagon = train.wagons[index - 1]
+  wagon = wagons[index - 1]
   if wagon.type == 'Пассажирский'
     passenger_wagon
   elsif wagon.type == 'Грузовой'
