@@ -1,17 +1,17 @@
+AllCops:
+  NewCops: enable
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
 
-Metrics/MethodLength:
-  Max: 120
-
-Layout/LineLength:
-  Max: 400
-
-Layout/ClassLength:
-  Max: 400
-
-Layout/BlockLength:
-  Max: 50
+Lint/NestedMethodDefinition:
+  Enabled: false
 
 Metrics/AbcSize:
   Enabled: false

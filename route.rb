@@ -14,7 +14,7 @@ class Route
     stations.first == stations.last || stations.first.name == stations.last.name
   end
 
-  def name
+  def stations_name
     stations.first.name + '-' + stations.last.name
   end
 

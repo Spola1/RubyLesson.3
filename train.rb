@@ -51,7 +51,7 @@ class Train
     raise 'Невозможно отцепить вагон, когда поезд движется'
   end
 
-  def route(route)
+  def set_route
     @route = route
     @station = @route.stations.first
     station.get_train(self)
@@ -61,9 +61,13 @@ class Train
     @route.stations[@route.stations.index(@station) + 1]
   end
 
+  # rubocop:disable Metrics/LineLength
+
   def previous_station
     @route.stations[@route.stations.index(@station) - 1] unless @station == @route.stations.first
   end
+
+  # rubocop:enable Metrics/LineLength
 
   def move_next_station
     return unless next_station
@@ -80,6 +84,6 @@ class Train
   private
 
   def check!
-    raise 'Проверьте формат номера.' if @number !~ NUMBER_TRAIN
+    raise 'Проверьте формат номера.' if @number !~ NUMBER_FORMAT
   end
 end

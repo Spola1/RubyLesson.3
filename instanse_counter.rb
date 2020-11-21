@@ -10,7 +10,11 @@ module InstanceCounter
     attr_accessor :instance_counter
 
     def instances
-      @instance_counter.nil? ? 0 : @instance_counter
+      if @instance_counter.nil?
+        0
+      else
+        @instance_counter
+      end
     end
   end
 

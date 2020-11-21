@@ -12,7 +12,7 @@ class WagonPass < Wagon
     @occuped += 1
   end
 
-  def free_seats
+  def free_seatss
     raise 'Все места свободны!' if @occuped.zero?
     @occuped -= 1
   end

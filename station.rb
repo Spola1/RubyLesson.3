@@ -9,14 +9,14 @@ class Station
 
   def initialize(name)
     @name = name
-    @@stations << name
+    @stations << name
     check!
     @trains = []
     register_instance
   end
 
   def all
-    @@stations
+    @stations
   end
 
   def each_train
