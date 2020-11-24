@@ -3,7 +3,12 @@
 class Station
   attr_reader :name, :trains
   include InstanceCounter
-  include Verification
+  include Validation
+
+  NAME_STATION = /^[a-zа-я0-9]{3,}$/i.freeze
+
+  validate :name, :presence
+  validate :name, :format, NAME_STATION
 
   @stations = []
 

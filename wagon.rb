@@ -1,12 +1,16 @@
 # frozen_string_literal: true
 
 class Wagon
+
   attr_reader :id, :type
   attr_accessor :train_number, :capacity, :occuped
+
   include Company
-  include Verification
+  include Validation
 
   ID_CARRIAGE = /^\d+$/
+
+  validate :id, presence: true, format: ID_CARRIAGE
 
   def initialize(id, capacity)
     @id = id

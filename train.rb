@@ -1,14 +1,24 @@
 # frozen_string_literal: true
 
 class Train
+
   attr_reader :number, :type, :route, :wagons
   attr_accessor :station, :speed, :count
+
   include Company
   include InstanceCounter
-  include Verification
+  include Validation
+  include Accessors
+
   NUMBER_FORMAT = /^[a-z0-9]{3}-?[a-z0-9]{2}$/
 
   @number_type = {}
+
+  validate :number, :presence
+  validate :number, :format, NUMBER_FORMAT
+
+  attr_accessor_with_history :named, :another
+  strong_attr_accessor :name, String
 
   def initialize(number, type)
     @number = number
