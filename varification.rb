@@ -8,7 +8,7 @@ module Validation
 
   module ClassMethods
     attr_reader :validates
-
+    
     def validate(arg_name, type, arguments = {})
       @validates ||= []
       @validates << { arg_name: arg_name, type: type, arguments: arguments }

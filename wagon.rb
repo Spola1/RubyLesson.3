@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Wagon
-
+  
   attr_reader :id, :type
   attr_accessor :train_number, :capacity, :occuped
 

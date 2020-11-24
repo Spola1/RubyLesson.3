@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Train
-
+  
   attr_reader :number, :type, :route, :wagons
   attr_accessor :station, :speed, :count
 
